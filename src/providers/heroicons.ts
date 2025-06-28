@@ -100,6 +100,17 @@ export class HeroiconsProvider extends BaseIconProvider {
     return ['outline', 'solid', 'mini'];
   }
 
+  async isAvailable(): Promise<boolean> {
+    try {
+      // Check if we can reach the GitHub repository
+      const response = await fetch(`${this.iconsUrl}/24/outline`, { method: 'HEAD' });
+      return response.ok;
+    } catch {
+      // If GitHub is down, we can still work with fallback icons
+      return true;
+    }
+  }
+
   private async loadIconsIfNeeded(): Promise<void> {
     if (this.iconsLoaded) return;
 

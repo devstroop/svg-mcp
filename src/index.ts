@@ -226,8 +226,8 @@ class IconsMcpServer {
           case 'create_sprite':
             return await createSprite(args);
 
-          // case 'optimize_svg':
-          //   return await optimizeSvg(args);
+          case 'optimize_svg':
+            return await optimizeSvg(args);
 
           default:
             throw new McpError(

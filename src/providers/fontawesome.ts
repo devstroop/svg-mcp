@@ -96,6 +96,17 @@ export class FontAwesomeProvider extends BaseIconProvider {
     return ['solid', 'regular', 'light', 'thin', 'duotone', 'brands'];
   }
 
+  async isAvailable(): Promise<boolean> {
+    try {
+      // Check if we can reach the GitHub raw content (more reliable than api.fontawesome.com)
+      const response = await fetch(this.freeIconsUrl, { method: 'HEAD' });
+      return response.ok;
+    } catch {
+      // If GitHub is down, we can still work with cached data or fallbacks
+      return true;
+    }
+  }
+
   private async loadIcons(): Promise<any> {
     if (this.iconsCache) {
       return this.iconsCache;

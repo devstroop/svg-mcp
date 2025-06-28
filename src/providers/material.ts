@@ -105,6 +105,17 @@ export class MaterialIconsProvider extends BaseIconProvider {
     }
   }
 
+  async isAvailable(): Promise<boolean> {
+    try {
+      // Check if we can reach the GitHub repository
+      const response = await fetch(`${this.iconsUrl}/metadata.json`, { method: 'HEAD' });
+      return response.ok;
+    } catch {
+      // If GitHub is down, we can still work with fallback icons
+      return true;
+    }
+  }
+
   private async loadIcons(): Promise<Map<string, any>> {
     if (this.iconsCache.size > 0) {
       return this.iconsCache;
