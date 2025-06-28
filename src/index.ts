@@ -12,7 +12,7 @@ import { getIcon } from './tools/retrieve.js';
 import { listCategories } from './tools/categories.js';
 import { convertIcon } from './tools/convert.js';
 import { createSprite } from './tools/sprite.js';
-// import { optimizeSvg } from './tools/optimize.js';
+import { optimizeSvg } from './tools/optimize.js';
 
 class IconsMcpServer {
   private server: Server;

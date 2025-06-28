@@ -1,6 +1,7 @@
 import { IconProvider } from './base-provider.js';
 import { FontAwesomeProvider } from './fontawesome.js';
 import { MaterialIconsProvider } from './material.js';
+import { HeroiconsProvider } from './heroicons.js';
 
 export class ProviderRegistry {
   private providers: Map<string, IconProvider> = new Map();
@@ -24,6 +25,7 @@ export class ProviderRegistry {
 
     this.providers.set('fontawesome', new FontAwesomeProvider(fontAwesomeApiKey));
     this.providers.set('material', new MaterialIconsProvider(materialApiKey));
+    this.providers.set('heroicons', new HeroiconsProvider());
   }
 
   getProvider(name: string): IconProvider | undefined {
