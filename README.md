@@ -5,7 +5,7 @@ An MCP server providing access to **200,000+ icons** from 150+ libraries. Search
 ## Installation
 
 ```bash
-git clone https://github.com/AlfredAR8/svg-mcp.git
+git clone https://github.com/devstroop/svg-mcp.git
 cd svg-mcp
 npm install
 npm run build
