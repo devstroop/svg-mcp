@@ -1,264 +1,159 @@
-# Icons MCP Server
+# SVG MCP Server
 
-A Model Context Protocol (MCP) server that provides programmatic access to icon libraries and icon-related operations.
-
-## Features
-
-- 🔍 **Search Icons** - Search across multiple icon libraries
-- 📦 **Multiple Providers** - Support for Font Awesome, Material Icons, Feather, and more
-- 🎨 **Format Conversion** - Convert between SVG, PNG, and other formats
-- 💾 **Smart Caching** - Cache frequently accessed icons for better performance
-- 🏷️ **Rich Metadata** - Get icon categories, tags, and usage recommendations
-- 🚀 **Sprite Generation** - Create optimized icon sprite sheets
-- 🧹 **SVG Optimization** - Clean and optimize SVG files by removing unnecessary metadata and attributes
+An MCP server providing access to **200,000+ icons** from 150+ libraries. Search, retrieve, convert, and optimize icons for your applications.
 
 ## Installation
 
 ```bash
-npm install icones-mcp
+git clone https://github.com/AlfredAR8/svg-mcp.git
+cd svg-mcp
+npm install
+npm run build
 ```
 
-## Configuration
+## Setup
 
+**VS Code** (`.vscode/mcp.json`):
+```json
+{
+  "servers": {
+    "svg": {
+      "command": "node",
+      "args": ["/path/to/svg-mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+**Claude Desktop** (`claude_desktop_config.json`):
 ```json
 {
   "mcpServers": {
-    "icones": {
+    "svg": {
       "command": "node",
-      "args": ["path/to/icones-mcp/dist/index.js"],
-      "env": {
-        "ICONS_CACHE_DIR": "/tmp/icons-cache",
-        "ICONS_API_KEY": "your-api-key-if-needed"
-      }
+      "args": ["/path/to/svg-mcp/dist/index.js"]
     }
   }
 }
 ```
 
-## Available Tools
+---
 
-### search_icons
-Search for icons across multiple libraries.
+## Tools
 
-```typescript
+### `recommend_icons`
+Get icon suggestions for UI use cases.
+
+```
+useCase: "navigation" | "ecommerce" | "user" | "status" | "settings" | "social" | ...
+```
+
+### `search_icons`
+Search 200k+ icons by keyword.
+
+```
+query: "shopping cart"
+limit: 10
+```
+
+### `get_icon`
+Get a single icon as SVG/PNG.
+
+```
+name: "lucide:home"
+size: 24
+color: "#000"
+```
+
+### `get_multiple_icons`
+Batch fetch up to 50 icons.
+
+```
+icons: [{ name: "lucide:home" }, { name: "lucide:user" }]
+```
+
+### `list_libraries`
+List available icon libraries.
+
+### `list_categories`
+Get categories from a library.
+
+### `create_sprite`
+Combine icons into a single SVG sprite.
+
+```
+icons: ["lucide:home", "lucide:user"]
+library: "iconify"
+optimize: true
+```
+
+### `convert_icon`
+Convert SVG → PNG at any size.
+
+```
+iconData: "<svg>...</svg>"
+toFormat: "png"
+size: 128
+```
+
+### `optimize_svg`
+Compress SVG with SVGO (50-70% reduction).
+
+---
+
+## Icon Format
+
+Icons use `prefix:name` format:
+
+| Prefix | Library | Count |
+|--------|---------|-------|
+| `lucide` | Lucide | 1,500+ |
+| `mdi` | Material Design | 7,000+ |
+| `heroicons` | Heroicons | 300+ |
+| `tabler` | Tabler | 5,000+ |
+| `ph` | Phosphor | 7,000+ |
+| `fa6-solid` | Font Awesome | 2,000+ |
+| `simple-icons` | Brand Logos | 3,000+ |
+
+Browse all: [icon-sets.iconify.design](https://icon-sets.iconify.design/)
+
+---
+
+## Examples
+
+**Get home icon:**
+```json
+{ "name": "lucide:home" }
+```
+
+**Search icons:**
+```json
+{ "query": "arrow", "limit": 5 }
+```
+
+**Dashboard icons:**
+```json
 {
-  "query": "home",
-  "libraries": ["fontawesome", "material"],
-  "limit": 20
+  "icons": [
+    { "name": "lucide:home" },
+    { "name": "lucide:users" },
+    { "name": "lucide:settings" }
+  ]
 }
 ```
 
-### get_icon
-Retrieve a specific icon in the desired format.
-
-```typescript
+**Status icons with colors:**
+```json
 {
-  "name": "home",
-  "library": "fontawesome",
-  "format": "svg",
-  "size": 24,
-  "color": "#000000",
-  "optimize": true  // Enable SVG optimization
+  "icons": [
+    { "name": "lucide:check", "color": "#22c55e" },
+    { "name": "lucide:x", "color": "#ef4444" }
+  ]
 }
 ```
 
-### list_categories
-Get available icon categories from a library.
-
-```typescript
-{
-  "library": "material"
-}
-```
-
-### convert_icon
-Convert an icon between different formats.
-
-```typescript
-{
-  "iconData": "<svg>...</svg>",
-  "fromFormat": "svg",
-  "toFormat": "png",
-  "size": 64
-}
-```
-
-### create_sprite
-Generate an icon sprite sheet.
-
-```typescript
-{
-  "icons": ["home", "user", "settings"],
-  "library": "fontawesome",
-  "format": "svg",
-  "optimize": true  // Optimize the sprite
-}
-```
-
-### optimize_svg
-Clean and optimize SVG files.
-
-```typescript
-{
-  "svgContent": "<svg>...</svg>",
-  "options": {
-    "removeMetadata": true,
-    "removeComments": true,
-    "removeDimensions": false,
-    "removeViewBox": false,
-    "removeStyleElements": true,
-    "removeScriptElements": true,
-    "removeTitle": false,
-    "removeDesc": false,
-    "removeUselessDefs": true,
-    "removeEditorsNSData": true,
-    "removeEmptyAttrs": true,
-    "removeHiddenElems": true,
-    "removeEmptyText": true,
-    "removeEmptyContainers": true,
-    "cleanupIDs": true,
-    "minifyStyles": true,
-    "convertColors": {
-      "currentColor": false,
-      "names2hex": true,
-      "rgb2hex": true
-    }
-  }
-}
-```
-
-## Supported Icon Libraries
-
-- Font Awesome (Free & Pro)
-- Material Design Icons
-- Feather Icons
-- Heroicons
-- Bootstrap Icons
-- Tabler Icons
-- Simple Icons
-
-## SVG Optimization Features
-
-The Icons MCP server includes comprehensive SVG optimization capabilities:
-
-### Automatic Cleanup
-- Remove unnecessary metadata and comments
-- Strip editor-specific namespaces (Adobe Illustrator, Sketch, etc.)
-- Remove empty elements and attributes
-- Clean up IDs and classes
-
-### Size Optimization
-- Minify styles
-- Convert colors to shorter representations
-- Remove redundant attributes
-- Optimize path data
-
-### Placeholder Handling
-- Remove placeholder elements
-- Clean up temporary layers
-- Strip debugging information
-- Remove hidden elements
-
-### Customizable Options
-- Configure which optimizations to apply
-- Preserve specific attributes when needed
-- Control color conversions
-- Maintain accessibility features (title, desc)
-
-## Development
-
-```bash
-# Install dependencies
-npm install
-
-# Build the project
-npm run build
-
-# Run in development mode
-npm run dev
-
-# Run tests
-npm test
-```
-
-## Architecture
-
-```
-icones-mcp/
-├── src/
-│   ├── index.ts          # MCP server entry point
-│   ├── providers/        # Icon library providers
-│   │   ├── fontawesome.ts
-│   │   ├── material.ts
-│   │   └── ...
-│   ├── tools/           # MCP tool implementations
-│   │   ├── search.ts
-│   │   ├── retrieve.ts
-│   │   ├── optimize.ts  # SVG optimization tool
-│   │   └── ...
-│   ├── utils/           # Utility functions
-│   │   ├── cache.ts
-│   │   ├── converter.ts
-│   │   ├── svg-optimizer.ts  # SVG optimization logic
-│   │   └── ...
-│   └── types/           # TypeScript type definitions
-├── tests/               # Test files
-├── dist/               # Compiled output
-└── package.json
-```
-
-## Example Usage
-
-### Getting an optimized icon
-```javascript
-// Request an icon with optimization
-const result = await mcp.callTool('get_icon', {
-  name: 'home',
-  library: 'fontawesome',
-  format: 'svg',
-  optimize: true
-});
-
-// Result will contain a cleaned, optimized SVG
-```
-
-### Batch optimization
-```javascript
-// Optimize multiple SVG files
-const optimized = await mcp.callTool('optimize_svg', {
-  svgContent: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">...</svg>',
-  options: {
-    removeMetadata: true,
-    removeComments: true,
-    minifyStyles: true
-  }
-});
-```
-
-## Roadmap
-
-- [x] Basic icon search and retrieval
-- [x] SVG optimization and cleanup
-- [ ] SVG to PNG conversion
-- [ ] Icon sprite generation
-- [ ] Caching layer
-- [ ] Support for premium icon libraries
-- [ ] Batch operations
-- [ ] Icon usage analytics
-- [ ] Custom icon upload support
-- [ ] Advanced placeholder detection and removal
-- [ ] Icon accessibility improvements
-
-## Contributing
-
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
+---
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
-
-## Acknowledgments
-
-- Built on top of the [Model Context Protocol](https://modelcontextprotocol.io/)
-- Icon data provided by respective icon library maintainers
-- SVG optimization powered by SVGO and custom algorithms
+MIT

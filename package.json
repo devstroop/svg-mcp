@@ -1,7 +1,7 @@
 {
-  "name": "icones-mcp",
+  "name": "svg-mcp",
   "version": "1.0.0",
-  "description": "A Model Context Protocol server that provides programmatic access to icon libraries and icon-related operations",
+  "description": "MCP server for 200,000+ SVG icons from Iconify. Search, retrieve, convert, and optimize icons.",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
@@ -18,8 +18,12 @@
     "model-context-protocol",
     "icons",
     "svg",
+    "iconify",
     "fontawesome",
-    "material-icons"
+    "material-icons",
+    "lucide",
+    "heroicons",
+    "ai-assistant"
   ],
   "author": "Your Name",
   "license": "MIT",

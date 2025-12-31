@@ -148,9 +148,17 @@ function extractSvgContent(svgString: string): string {
     // Remove any existing transforms and adjust for sprite positioning
     let content = match[1].trim();
     
-    // Remove existing viewBox-dependent elements that might break in sprite context
-    content = content.replace(/width="[^"]*"/g, '');
-    content = content.replace(/height="[^"]*"/g, '');
+    // Remove ONLY standalone width/height attributes (not stroke-width, etc.)
+    // Use word boundary to avoid partial matches like stroke-width
+    content = content.replace(/\bwidth="[^"]*"/g, '');
+    content = content.replace(/\bheight="[^"]*"/g, '');
+    
+    // Clean up any malformed attributes that might have been created
+    // This removes things like 'stroke-' without a value
+    content = content.replace(/\s+(\w+(?:-\w+)*)-(?=\s|>|\/)/g, ' ');
+    
+    // Remove any double spaces left behind
+    content = content.replace(/\s{2,}/g, ' ');
     
     return content;
   }

@@ -3,7 +3,7 @@ import { cacheManager } from '../utils/cache.js';
 import { ProviderRegistry } from '../providers/registry.js';
 
 export async function searchIcons(args: any) {
-  const { query, libraries = ['fontawesome', 'material'], limit = 20 } = args;
+  const { query, libraries = ['iconify'], limit = 20 } = args;
   
   if (!query || typeof query !== 'string') {
     throw new Error('Query parameter is required and must be a string');

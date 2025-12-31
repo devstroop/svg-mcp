@@ -11,6 +11,78 @@ export class FontAwesomeProvider extends BaseIconProvider {
   private readonly freeIconsUrl = 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/metadata/icons.json';
   private iconsCache: any = null;
 
+  // Map common icon names to Font Awesome specific names
+  private readonly iconAliases: Record<string, string> = {
+    'home': 'house',
+    'settings': 'gear',
+    'cog': 'gear',
+    'account': 'user',
+    'profile': 'user',
+    'close': 'xmark',
+    'x': 'xmark',
+    'menu': 'bars',
+    'hamburger': 'bars',
+    'search': 'magnifying-glass',
+    'find': 'magnifying-glass',
+    'mail': 'envelope',
+    'email': 'envelope',
+    'phone': 'phone',
+    'calendar': 'calendar-days',
+    'time': 'clock',
+    'edit': 'pen-to-square',
+    'delete': 'trash',
+    'remove': 'trash',
+    'add': 'plus',
+    'create': 'plus',
+    'save': 'floppy-disk',
+    'download': 'download',
+    'upload': 'upload',
+    'share': 'share-nodes',
+    'like': 'heart',
+    'favorite': 'heart',
+    'star': 'star',
+    'bookmark': 'bookmark',
+    'notification': 'bell',
+    'alert': 'bell',
+    'warning': 'triangle-exclamation',
+    'error': 'circle-exclamation',
+    'info': 'circle-info',
+    'success': 'circle-check',
+    'check': 'check',
+    'cart': 'cart-shopping',
+    'shopping': 'cart-shopping',
+    'money': 'money-bill',
+    'payment': 'credit-card',
+    'lock': 'lock',
+    'unlock': 'lock-open',
+    'eye': 'eye',
+    'visibility': 'eye',
+    'hide': 'eye-slash',
+    'copy': 'copy',
+    'paste': 'paste',
+    'cut': 'scissors',
+    'folder': 'folder',
+    'file': 'file',
+    'document': 'file-lines',
+    'image': 'image',
+    'photo': 'image',
+    'video': 'video',
+    'music': 'music',
+    'play': 'play',
+    'pause': 'pause',
+    'stop': 'stop',
+    'forward': 'forward',
+    'backward': 'backward',
+    'refresh': 'arrows-rotate',
+    'sync': 'arrows-rotate',
+    'loading': 'spinner',
+    'spinner': 'spinner',
+  };
+
+  private resolveIconName(name: string): string {
+    return this.iconAliases[name.toLowerCase()] || name;
+  }
+
   async search(query: string, limit = 20): Promise<IconSearchResult[]> {
     try {
       const icons = await this.loadIcons();
@@ -44,15 +116,18 @@ export class FontAwesomeProvider extends BaseIconProvider {
   async getIcon(name: string, options: IconRetrievalOptions = {}): Promise<IconData> {
     const { format = 'svg', size = 24, color = '#000000', style = 'solid' } = options;
 
+    // Resolve alias to actual FA icon name
+    const resolvedName = this.resolveIconName(name);
+
     try {
       const icons = await this.loadIcons();
-      const iconData = icons[name];
+      const iconData = icons[resolvedName];
 
       if (!iconData) {
-        throw new Error(`Icon "${name}" not found in Font Awesome`);
+        throw new Error(`Icon "${name}" (resolved: "${resolvedName}") not found in Font Awesome`);
       }
 
-      const svgContent = await this.fetchIconSvg(name, style);
+      const svgContent = await this.fetchIconSvg(resolvedName, style);
       
       if (format === 'png') {
         // Convert SVG to PNG (placeholder for now)

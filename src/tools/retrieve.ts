@@ -6,15 +6,15 @@ import { ProviderRegistry } from '../providers/registry.js';
 export async function getIcon(args: any) {
   const { 
     name, 
-    library, 
+    library = 'iconify', 
     format = 'svg', 
     size = 24, 
-    color = '#000000',
+    color,
     optimize = false 
   } = args;
 
-  if (!name || !library) {
-    throw new Error('Name and library parameters are required');
+  if (!name) {
+    throw new Error('Name parameter is required');
   }
 
   try {

@@ -1,0 +1,9 @@
+
+{
+  "servers": {
+    "svg": {
+      "command": "node",
+      "args": ["/Users/itsalfredakku/McpServers/icones-mcp/dist/index.js"]
+    }
+  }
+}
